@@ -8,8 +8,9 @@
 <header th:replace="fragments :: header"></header>
 
 <p th:unless="${events} and ${events.size()}">No Events!</p>
-<table>
+<table class="table table-striped">
     <tr><th:block th:each="event:${events}"></th:block>
+            <th>ID</th>
             <th>Event Name</th>
             <th>Description</th>
             <th>Address</th>
@@ -17,6 +18,7 @@
 
     <th:block th:each="eventVariable:${events}">
         <tr>
+            <td th:text="${eventVariable.getId}"></td>
             <td th:text="${eventVariable.getEventName()}"></td>
             <td th:text="${eventVariable.getEventDescription()}"></td>
             <td th:text="${eventVariable.getEventAddress()}"></td>
