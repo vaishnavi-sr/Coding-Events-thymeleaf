@@ -23,6 +23,9 @@
             <td th:text="${eventVariable.getEventDescription()}"></td>
             <td th:text="${eventVariable.getEventAddress()}"></td>
 <!--            <td th:replace="fragments :: address"></td>-->
+            <td>
+                <a th:href="@{/events/edit/{id}(id=${eventVariable.id})}">Edit</a>
+            </td>
     </th:block>
         </tr>
 </table>

@@ -3,7 +3,7 @@ package org.launchcode.codingevents.models;
 import java.util.Objects;
 
 public class Event {
-    private String eventName;
+    private static String eventName;
     private String eventDescription;
     private String eventAddress;
     private static int nextId = 1;

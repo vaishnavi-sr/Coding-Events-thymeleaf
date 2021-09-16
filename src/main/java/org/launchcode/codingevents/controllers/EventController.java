@@ -80,4 +80,25 @@ public class EventController {
 
         return "redirect:";
     }
+
+    @GetMapping("edit/{eventId}")
+    public String displayEditForm(Model model, @PathVariable int eventId){
+        Event eventToEdit = EventData.getById(eventId);
+        model.addAttribute("event", eventToEdit);
+        String title = "Edit Event " + eventToEdit.getEventName() + " (id=" + eventToEdit.getId() + ")" + eventToEdit.getEventAddress();
+        model.addAttribute("title", title );
+        return "events/edit";
+    }
+
+    @PostMapping("edit")
+    public String processEditForm(int eventId, String name, String description, String address) {
+        Event eventToEdit = EventData.getById(eventId);
+        eventToEdit.setEventName(name);
+        eventToEdit.setEventDescription(description);
+        eventToEdit.setEventAddress(address);
+        EventData.add(eventToEdit);
+
+        return "redirect:";
+
+    }
 }
