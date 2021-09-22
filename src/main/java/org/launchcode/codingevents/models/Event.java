@@ -1,36 +1,54 @@
 package org.launchcode.codingevents.models;
 
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class Event {
-    private static String eventName;
-    private String eventDescription;
-    private String eventAddress;
+    private int id;
     private static int nextId = 1;
+
+
+    @NotBlank(message = "Name is required")
+    @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
+    private  String eventName;
+
+    @NotBlank(message = "Description required")
+    @Size(max = 500,message = "Description too long")
+    private String eventDescription;
+
+    @NotBlank(message = "Address required!")
+    private String eventAddress;
+
+    @NotBlank(message = "Email is required!")
+    @Email(message = "invalid email. Try again.")
+    private String contactEmail;
+    private EventType type;
 
     public int getId() {
         return id;
     }
 
-    private int id;
 
-    public Event(String eventName,String eventDescription,String eventAddress) {
+
+    public Event(String eventName,String eventDescription,String eventAddress,String contactEmail,EventType type) {
+        this();
         this.eventName = eventName;
         this.eventDescription = eventDescription;
         this.eventAddress = eventAddress;
+        this.contactEmail = contactEmail;
+        this.type = type;
+
+    }
+
+    public Event(){
         this.id = nextId;
         nextId++;
     }
 
 
-
-    public Event() {
-        this.eventName=getEventName();
-        this.eventDescription = getEventDescription();
-        this.eventAddress = getEventAddress();
-        this.id = nextId;
-        nextId++;
-    }
 
 
     public String getEventName() {
@@ -56,6 +74,23 @@ public class Event {
     public void setEventAddress(String eventAddress) {
         this.eventAddress = eventAddress;
     }
+
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
+
+    public EventType getType() {
+        return type;
+    }
+
+    public void setType(EventType type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return eventName;

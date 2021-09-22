@@ -7,32 +7,25 @@
 
 <header th:replace="fragments :: header"></header>
 
+
 <p th:unless="${events} and ${events.size()}">No Events!</p>
 <table class="table table-striped">
-    <tr><th:block th:each="event:${events}"></th:block>
-            <th>ID</th>
-            <th>Event Name</th>
-            <th>Description</th>
-            <th>Address</th>
-        </tr>
-
-    <th:block th:each="eventVariable:${events}">
-        <tr>
-            <td th:text="${eventVariable.getId}"></td>
-            <td th:text="${eventVariable.getEventName()}"></td>
-            <td th:text="${eventVariable.getEventDescription()}"></td>
-            <td th:text="${eventVariable.getEventAddress()}"></td>
-<!--            <td th:replace="fragments :: address"></td>-->
-            <td>
-                <a th:href="@{/events/edit/{id}(id=${eventVariable.id})}">Edit</a>
-            </td>
-    </th:block>
-        </tr>
-</table>
-
-<!--    <tr  th:each="event : ${events}">-->
-<!--        <td th:text="${event}"></td>-->
-<!--    </tr>-->
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Contact Email</th>
+        <th>Type</th>
+    </tr>
+    </thead>
+    <tr th:each="event : ${events}">
+        <td th:text="${event.id}"></td>
+        <td th:text="${event.eventName}"></td>
+        <td th:text="${event.eventDescription}"></td>
+        <td th:text="${event.contactEmail}"></td>
+        <td th:text="${event.type.displayName}"></td>
+    </tr>
 </table>
 
 </body>

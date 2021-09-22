@@ -2,10 +2,14 @@ package org.launchcode.codingevents.controllers;
 
 import org.launchcode.codingevents.data.EventData;
 import org.launchcode.codingevents.models.Event;
+import org.launchcode.codingevents.models.EventType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,22 +42,32 @@ public class EventController {
       //  eventsMap.put("Code With Pride","A fun meetup sponsored by LaunchCode");
       //  eventsMap.put("Javascripty", "An imaginary meetup for Javascript developers");
 //        model.addAttribute("events",eventsMap);
+        model.addAttribute("title", "All Events");
         model.addAttribute("events", EventData.getAll());
         return "events/index";
     }
 
     //lives at events/create
     @GetMapping("create")
-    public String displayCreateEventForm() {
+    public String displayCreateEventForm(Model model) {
+        model.addAttribute("title","Create Event");
+        model.addAttribute(new Event());
+        model.addAttribute("types", EventType.values());
         return "events/create";
     }
 
     //lives at events/create
     @PostMapping("create")
-    public String createEvent(@ModelAttribute Event newEvent){
-        System.out.println("eventName");
+    public String processCreateEvent(@ModelAttribute @Valid Event newEvent, Errors errors, Model model){
+        if(errors.hasErrors()){
+            model.addAttribute("title", "Create Event");
+//            model.addAttribute("errorMsg", "Bad Data!");//(as added in html-view)
+            return "events/create";
+        }
+
       //  events.add(eventName);
-        Event event = new Event();
+       // Event event = new Event();
+     //   Event event = new Event();
         EventData.add(newEvent);
 //        event.setEventName(eventName);
 //        event.setEventDescription(eventDescription);
@@ -82,7 +96,7 @@ public class EventController {
     }
 
     @GetMapping("edit/{eventId}")
-    public String displayEditForm(Model model, @PathVariable int eventId){
+    public String displayEditForm(Model model, @PathVariable @NotBlank int eventId){
         Event eventToEdit = EventData.getById(eventId);
         model.addAttribute("event", eventToEdit);
         String title = "Edit Event " + eventToEdit.getEventName() + " (id=" + eventToEdit.getId() + ")" + eventToEdit.getEventAddress();
